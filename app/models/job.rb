@@ -27,7 +27,7 @@ class Job < ApplicationRecord
     update(sidekiq_id: sidekiq_id)
   end
 
-  def perform_license_parsing
+  def perform_sbom_parsing
     begin
       Dir.mktmpdir do |dir|
         sha256 = download_file(dir)

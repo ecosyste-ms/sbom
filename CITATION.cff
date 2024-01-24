@@ -12,7 +12,7 @@ authors:
 repository-code: 'https://github.com/ecosyste-ms/sbom'
 url: 'https://sbom.ecosyste.ms'
 abstract: >-
-  An open API service to parse license metadata from many open source software ecosystems.
+  An open API service to parse and convert between SBOM file formats.
 keywords:
   - open source
   - package management

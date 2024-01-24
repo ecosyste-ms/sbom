@@ -1,6 +1,6 @@
 # [Ecosyste.ms: SBOM](https://sbom.ecosyste.ms)
 
-An open API service to parse license metadata from many open source software ecosystems. 
+An open API service to parse and convert between SBOM file formats.
 
 This project is part of [Ecosyste.ms](https://ecosyste.ms): Tools and open datasets to support, sustain, and secure critical digital infrastructure.
 
