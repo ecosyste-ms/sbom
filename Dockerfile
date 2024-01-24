@@ -30,6 +30,8 @@ RUN apk add --update \
  && bundle config set without 'test' \
  && bundle install --jobs 2
 
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
 # ========================================================
 # Application layer
 
