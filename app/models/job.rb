@@ -42,24 +42,11 @@ class Job < ApplicationRecord
   def parse_sbom(dir)
     path = working_directory(dir)
 
-    case mime_type(path)
-    when "application/zip", "application/java-archive"
-      destination = File.join([dir, 'zip'])
-      `mkdir #{destination} && bsdtar --strip-components=1 -xvf #{path} -C #{destination} > /dev/null 2>&1 `
-      results = syft_convert(destination)
-    when "application/gzip"
-      destination = File.join([dir, 'tar'])
-      `mkdir #{destination} && tar xzf #{path} -C #{destination} --strip-components 1`
-      results = syft_convert(destination)
-    else
-      results = []
-    end
-
-    return results
+    syft_convert(path)
   end
 
   def syft_convert(path, format = 'syft-json')
-    # do the thing
+    `syft convert #{path} -o #{format}`
   end
 
   def download_file(dir)
@@ -103,5 +90,9 @@ class Job < ApplicationRecord
       'syft-table',
       'syft-text'
     ]
+  end
+
+  def self.syft_version
+    @syft_version ||= `syft --version`.strip.split(' ').last
   end
 end
