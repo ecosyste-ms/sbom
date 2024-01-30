@@ -64,13 +64,6 @@ class Job < ApplicationRecord
     return Digest::SHA256.hexdigest File.read(path)
   end
 
-  def mime_type(path)
-    IO.popen(
-      ["file", "--brief", "--mime-type", path],
-      in: :close, err: :close
-    ) { |io| io.read.chomp }
-  end
-
   def working_directory(dir)
     File.join([dir, basename])
   end
