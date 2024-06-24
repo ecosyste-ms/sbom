@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :api, :defaults => {:format => :json} do
     namespace :v1 do
-      resources :jobs do
+      resources :jobs, only: [:create, :show] do
         collection do
           get :sbom_formats
         end
