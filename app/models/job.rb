@@ -1,3 +1,4 @@
+require 'open3'
 class Job < ApplicationRecord
   validates_presence_of :url
   validates_uniqueness_of :id
@@ -46,7 +47,7 @@ class Job < ApplicationRecord
   end
 
   def syft_convert(path, format = 'syft-json')
-    `syft convert #{path} -o #{format}`
+    system("syft convert #{path} -o #{format}")
   end
 
   def download_file(dir)
@@ -86,6 +87,9 @@ class Job < ApplicationRecord
   end
 
   def self.syft_version
-    @syft_version ||= `syft --version`.strip.split(' ').last
+    @syft_version ||= begin
+      stdout, _ = Open3.capture2("syft --version")
+      stdout.strip.split(' ').last
+    end
   end
 end
