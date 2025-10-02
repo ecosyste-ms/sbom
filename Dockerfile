@@ -25,12 +25,16 @@ RUN apk add --update \
     libarchive-tools \
     yaml-dev \
     libffi-dev \
+    jemalloc \
  && rm -rf /var/cache/apk/* \
  && gem update --system \
  && gem install bundler foreman \
  && bundle config --global frozen 1 \
  && bundle config set without 'test' \
  && bundle install --jobs 2
+
+ENV LD_PRELOAD=/usr/lib/libjemalloc.so.2
+ENV RUBY_YJIT_ENABLE=1
 
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
