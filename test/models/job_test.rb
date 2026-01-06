@@ -16,9 +16,10 @@ class JobTest < ActiveSupport::TestCase
     assert_equal @job.status, "queued"
   end
 
-  test 'parse_sbom_async' do
-    ParseSbomWorker.expects(:perform_async).with(@job.id)
-    @job.parse_sbom_async
+  test 'parse' do
+    stub_request(:get, @job.url).to_return(status: 200, body: '{"bomFormat": "CycloneDX", "specVersion": "1.4", "components": []}')
+    @job.parse
+    assert_equal 'complete', @job.status
   end
 
   test 'parse_sbom' do

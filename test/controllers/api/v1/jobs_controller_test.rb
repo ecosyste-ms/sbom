@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ApiV1JobsControllerTest < ActionDispatch::IntegrationTest
   test 'submit a job' do
+    Job.any_instance.stubs(:parse)
     post api_v1_jobs_path(url: 'https://github.com/ecosyste-ms/digest/archive/refs/heads/main.zip')
     assert_response :redirect
     assert_match /\/api\/v1\/jobs\//, @response.location

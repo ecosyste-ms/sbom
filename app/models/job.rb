@@ -22,21 +22,14 @@ class Job < ApplicationRecord
     ['complete', 'error'].include?(status)
   end
 
-  def parse_sbom_async
-    sidekiq_id = ParseSbomWorker.perform_async(id)
-    update(sidekiq_id: sidekiq_id)
-  end
-
-  def perform_sbom_parsing
-    begin
-      Dir.mktmpdir do |dir|
-        sha256 = download_file(dir)
-        results = parse_sbom(dir)
-        update!(results: results, status: 'complete', sha256: sha256)
-      end
-    rescue => e
-      update(results: {error: e.inspect}, status: 'error')
+  def parse
+    Dir.mktmpdir do |dir|
+      sha256 = download_file(dir)
+      results = parse_sbom(dir)
+      update!(results: results, status: 'complete', sha256: sha256)
     end
+  rescue => e
+    update(results: {error: e.inspect}, status: 'error')
   end
 
   def parse_sbom(dir)
