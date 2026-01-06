@@ -1,4 +1,3 @@
-require 'open3'
 class Job < ApplicationRecord
   validates_presence_of :url
   validates_uniqueness_of :id
@@ -42,12 +41,8 @@ class Job < ApplicationRecord
 
   def parse_sbom(dir)
     path = working_directory(dir)
-
-    syft_convert(path)
-  end
-
-  def syft_convert(path, format = 'syft-json')
-    system("syft convert #{path} -o #{format}")
+    sbom = Sbom.parse_file(path)
+    sbom.to_h
   end
 
   def download_file(dir)
@@ -77,19 +72,15 @@ class Job < ApplicationRecord
     [
       'cyclonedx-json',
       'cyclonedx-xml',
-      'github-json',
       'spdx-json',
-      'spdx-tag-value',
-      'syft-json',
-      'syft-table',
-      'syft-text'
+      'spdx-xml',
+      'spdx-yaml',
+      'spdx-rdf',
+      'spdx-tag-value'
     ]
   end
 
-  def self.syft_version
-    @syft_version ||= begin
-      stdout, _ = Open3.capture2("syft --version")
-      stdout.strip.split(' ').last
-    end
+  def self.sbom_version
+    Sbom::VERSION
   end
 end

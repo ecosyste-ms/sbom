@@ -36,6 +36,7 @@ gem 'google-protobuf'
 gem "nokogiri"
 gem 'appsignal'
 gem 'ostruct'
+gem 'sbom'
 
 
 group :development do
