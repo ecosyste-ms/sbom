@@ -206,7 +206,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sbom (0.4.0)
+    sbom (0.4.1)
       json_schemer (~> 2.0)
       purl (~> 1.6)
       rexml (~> 3.2)
@@ -403,7 +403,7 @@ CHECKSUMS
   ruby2_keywords (0.0.5) sha256=ffd13740c573b7301cf7a2e61fc857b2a8e3d3aff32545d6f8300d8bae10e3ef
   sassc (2.4.0) sha256=4c60a2b0a3b36685c83b80d5789401c2f678c1652e3288315a1551d811d9f83e
   sassc-rails (2.1.2) sha256=5f4fdf3881fc9bdc8e856ffbd9850d70a2878866feae8114aa45996179952db5
-  sbom (0.4.0) sha256=e441feff234847bea40a4458073a8cc38c883a95ef7c5f8d25e45b2d96e40b6b
+  sbom (0.4.1) sha256=0c0cb49c43048f53c7eacaa536064704747825f3ba6b607dfe481aab9c591f37
   secure_headers (7.1.0) sha256=6b1f9d5f9507af2948f4636452c41c09371927836396c2185438ffdf0a731124
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   shoulda-context (3.0.0.rc1) sha256=6e0d9d52ab798c13bc2b490c8537d4bf30cfd318a1ea839c39a66d1d293c6a1a
