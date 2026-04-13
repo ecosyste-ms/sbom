@@ -14,7 +14,7 @@ gem "actionview", "~> 8.1.1"
 gem "secure_headers"
 gem "sprockets-rails"
 gem "pg"
-gem "puma", "~> 7.2"
+gem "puma", "~> 8.0"
 gem "jbuilder"
 gem "bootsnap", require: false
 gem "sassc-rails"
