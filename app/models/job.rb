@@ -4,6 +4,7 @@ class Job < ApplicationRecord
   DOWNLOAD_TIMEOUT = 30
   MAX_DOWNLOAD_SIZE = 5.megabytes
   MAX_REDIRECTS = 5
+  PARSE_TIMEOUT = 20
   REDIRECT_CODES = [301, 302, 303, 307, 308]
   DENIED_RANGES = %w[
     0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12
@@ -38,10 +39,10 @@ class Job < ApplicationRecord
   def parse
     Dir.mktmpdir do |dir|
       sha256 = download_file(dir)
-      results = parse_sbom(dir)
+      results = Timeout.timeout(PARSE_TIMEOUT) { parse_sbom(dir) }
       update!(results: results, status: 'complete', sha256: sha256)
     end
-  rescue => e
+  rescue StandardError, SystemStackError => e
     update(results: {error: e.inspect}, status: 'error')
   end
 

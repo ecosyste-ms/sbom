@@ -111,6 +111,26 @@ class ApiV1JobsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'stops parsing after the parse timeout' do
+    component = '<component type="library"><name>n</name><version>1</version></component>'
+    body = %(<bom xmlns="http://cyclonedx.org/schema/bom/1.4" version="1"><components>#{component * 5000}</components></bom>)
+    stub_request(:get, 'https://example.com/bom.cdx.xml').to_return(status: 200, body: body)
+    job = with_limit(:PARSE_TIMEOUT, 0.01) { submit('https://example.com/bom.cdx.xml') }
+
+    assert_equal 'error', job.status
+    # REXML occasionally reports the interrupt as truncated input
+    assert_match(/Timeout::Error|Invalid XML/, job.results['error'])
+  end
+
+  test 'marks the job as an error when parsing overflows the stack' do
+    Sbom.stubs(:parse_file).raises(SystemStackError, 'stack level too deep')
+    stub_request(:get, 'https://example.com/bom.json').to_return(status: 200, body: CYCLONEDX)
+    job = submit('https://example.com/bom.json')
+
+    assert_equal 'error', job.status
+    assert_match 'SystemStackError', job.results['error']
+  end
+
   def submit(url)
     post api_v1_jobs_path, params: { url: url }
     assert_response :redirect
