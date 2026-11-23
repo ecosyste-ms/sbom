@@ -2,7 +2,7 @@ class Job < ApplicationRecord
   class DownloadError < StandardError; end
 
   DOWNLOAD_TIMEOUT = 30
-  MAX_DOWNLOAD_SIZE = 50.megabytes
+  MAX_DOWNLOAD_SIZE = 5.megabytes
   MAX_REDIRECTS = 5
   REDIRECT_CODES = [301, 302, 303, 307, 308]
   DENIED_RANGES = %w[
