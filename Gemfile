@@ -34,7 +34,7 @@ gem 'typhoeus'
 gem "nokogiri"
 gem 'appsignal'
 gem 'ostruct'
-gem 'sbom'
+gem 'sbom', github: 'andrew/sbom', branch: 'main'
 
 
 group :development do
